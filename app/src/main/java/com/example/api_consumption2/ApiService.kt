@@ -7,7 +7,7 @@ import retrofit2.http.GET
 interface ApiService {
 
     @GET("products") // Defino el endpoint
-    fun getProducts():Response<List<Product>>
+    suspend fun getProducts():Response<List<Product>>
 
     // Obtener 1 producto
     @GET("products/1")
