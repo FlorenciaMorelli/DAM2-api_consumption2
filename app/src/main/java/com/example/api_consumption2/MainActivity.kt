@@ -6,7 +6,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.api_consumption2.adapter.ProductAdapter
 import com.example.api_consumption2.databinding.ActivityMainBinding
+import com.example.api_consumption2.model.Product
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,6 +17,9 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityMainBinding
+
+    private lateinit var adapter: ProductAdapter
+    private val products = mutableListOf<Product>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -23,6 +29,14 @@ class MainActivity : AppCompatActivity() {
 
         getListProducts()
 
+        initRecycler()
+
+    }
+
+    private fun initRecycler(){
+        adapter = ProductAdapter(products)
+        binding.rvProducts.layoutManager = LinearLayoutManager(this)
+        binding.rvProducts.adapter = adapter
     }
 
     fun getListProducts(){
@@ -30,8 +44,10 @@ class MainActivity : AppCompatActivity() {
             val callApi = RetrofitClient.api.getProducts()
             runOnUiThread{
                 if (callApi.isSuccessful){
-                    val products = callApi.body()
-                    Log.d("ProductApi", "Lista de productos: $products")
+                    val productResponse = callApi.body()?: emptyList()
+                    products.clear()
+                    products.addAll(productResponse)
+                    adapter.notifyDataSetChanged()
                 } else {
                     Log.d("ProductApi", "No se obtuvo respuesta de la pegada")
                 }
