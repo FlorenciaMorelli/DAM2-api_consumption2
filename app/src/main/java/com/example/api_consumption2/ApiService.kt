@@ -1,0 +1,11 @@
+package com.example.api_consumption2
+
+import com.example.api_consumption2.model.Product
+import retrofit2.Response
+import retrofit2.http.GET
+
+interface ApiService {
+
+    @GET("products") // Defino el endpoint
+    fun getProducts():Response<List<Product>>
+}
