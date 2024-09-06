@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityMainBinding
 
+    private val productsRepository = ProductsRepository()
+
     private lateinit var adapter: ProductAdapter
     private val products = mutableListOf<Product>()
 
