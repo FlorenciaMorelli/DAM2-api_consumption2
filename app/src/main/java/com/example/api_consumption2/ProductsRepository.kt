@@ -13,6 +13,7 @@ class ProductsRepository {
     }
 
     fun fetchProducts(productResults: ProductsResults){
+        //  Pegada a la api con try catch
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val call = RetrofitClient.api.getProducts()
